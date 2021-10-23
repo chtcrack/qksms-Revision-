@@ -129,7 +129,7 @@
         <com.moez.QKSMS.common.widget.PreferenceView
             android:id="@+id/delayed"
             android:layout_width="match_parent"
-            android:layout_height="23dp"
+            android:layout_height="wrap_content"
             app:icon="@drawable/ic_av_timer_black_24dp"
             app:title="@string/settings_delayed_title"
             tools:summary="No delay" />
