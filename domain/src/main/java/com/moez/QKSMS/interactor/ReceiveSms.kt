@@ -59,14 +59,9 @@ class ReceiveSms @Inject constructor(
                 val action = blockingClient.getAction(address).blockingGet()
                 val smsaction = blockingClient.getAction(smscontent).blockingGet()//拦截短信内容
                 val shouldDrop = prefs.drop.get()
-                //val shouldDrop=false//强制不丢弃短信信息,存入已拦截信息
                 Timber.v("block=$action, drop=$shouldDrop")
 
-
-
-
                 // If we should drop the message, don't even save it
-                //如果消息被拦截并且shouldDrop为真,则不储存它
                 if (action is BlockingClient.Action.Block && shouldDrop) {
                     return@mapNotNull null
                 }
@@ -117,26 +112,11 @@ class ReceiveSms @Inject constructor(
                 }
                 */
 
-                //获取短信验证码
-                //	获得6位纯数字
-                val SMS_VERIFY_CODE_SIXLENGTH = 6
-                val SMS_VERIFY_CODE_FOURLENGTH = 4
-                val p = Pattern.compile("(?<![0-9])([0-9]{" + SMS_VERIFY_CODE_SIXLENGTH + "})(?![0-9])")
-                val m = p.matcher(smscontent)
-                if (m.find()) {//找到6位验证码
-                    val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clipData = ClipData.newPlainText("Label", m.group(0))
-                    clipboardManager.setPrimaryClip(clipData)
 
-                }else{//找4位验证码
-                    val p1 = Pattern.compile("(?<![0-9])([0-9]{" + SMS_VERIFY_CODE_FOURLENGTH + "})(?![0-9])")
-                    val m1 = p1.matcher(smscontent)
-                    if (m1.find()) {
-                        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        val clipData = ClipData.newPlainText("Label", m1.group(0))
-                        clipboardManager.setPrimaryClip(clipData)
-                    }
-                }
+
+                if(prefs.smsautocopy.get())  CheckVercode(smscontent)
+
+
 
 
                 message
@@ -157,5 +137,33 @@ class ReceiveSms @Inject constructor(
             .doOnNext { shortcutManager.updateShortcuts() } // Update shortcuts
             .flatMap { updateBadge.buildObservable(Unit) } // Update the badge and widget
     }
+    fun CheckVercode(smscontent :String)
+    {
+        //获取短信验证码
+        //	获得6位纯数字
+        if(smscontent.contains("验证",ignoreCase = false) || smscontent.contains("verify",ignoreCase = false))
+        {
+            val SMS_VERIFY_CODE_SIXLENGTH = 6
+            val SMS_VERIFY_CODE_FOURLENGTH = 4
+            val p = Pattern.compile("(?<![0-9])([0-9]{" + SMS_VERIFY_CODE_SIXLENGTH + "})(?![0-9])")
+            val m = p.matcher(smscontent)
+            if (m.find()) {//找到6位验证码
+                val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("Label", m.group(0))
+                clipboardManager.setPrimaryClip(clipData)
+
+            }else{//找4位验证码
+                val p1 = Pattern.compile("(?<![0-9])([0-9]{" + SMS_VERIFY_CODE_FOURLENGTH + "})(?![0-9])")
+                val m1 = p1.matcher(smscontent)
+                if (m1.find()) {
+                    val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipData = ClipData.newPlainText("Label", m1.group(0))
+                    clipboardManager.setPrimaryClip(clipData)
+                }
+            }
+        }
+
+    }
+
 
 }

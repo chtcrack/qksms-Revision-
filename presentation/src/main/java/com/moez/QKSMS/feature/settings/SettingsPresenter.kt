@@ -124,6 +124,9 @@ class SettingsPresenter @Inject constructor(
         disposables += prefs.autoDelete.asObservable()
                 .subscribe { autoDelete -> newState { copy(autoDelete = autoDelete) } }
 
+        disposables += prefs.smsautocopy.asObservable()
+            .subscribe { enabled -> newState { copy(smsautocopy = enabled) } }
+
         disposables += prefs.longAsMms.asObservable()
                 .subscribe { enabled -> newState { copy(longAsMms = enabled) } }
 
@@ -196,6 +199,8 @@ class SettingsPresenter @Inject constructor(
                         R.id.autoDelete -> view.showAutoDeleteDialog(prefs.autoDelete.get())
 
                         R.id.longAsMms -> prefs.longAsMms.set(!prefs.longAsMms.get())
+
+                        R.id.smsautocopy -> prefs.smsautocopy.set(!prefs.smsautocopy.get())
 
                         R.id.mmsSize -> view.showMmsSizePicker()
 

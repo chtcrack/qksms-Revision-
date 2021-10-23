@@ -189,6 +189,7 @@ class SettingsController : QkController<SettingsView, SettingsState, SettingsPre
         }
 
         longAsMms.checkbox.isChecked = state.longAsMms
+        smsautocopy.checkbox.isChecked = state.smsautocopy
 
         mmsSize.summary = state.maxMmsSizeSummary
         mmsSizeDialog.adapter.selectedItem = state.maxMmsSizeId

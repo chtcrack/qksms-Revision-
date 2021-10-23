@@ -43,6 +43,7 @@ data class SettingsState(
     val mobileOnly: Boolean = false,
     val autoDelete: Int = 0,
     val longAsMms: Boolean = false,
+    val smsautocopy: Boolean = false,
     val maxMmsSizeSummary: String = "100KB",
     val maxMmsSizeId: Int = 100,
     val syncProgress: SyncRepository.SyncProgress = SyncRepository.SyncProgress.Idle

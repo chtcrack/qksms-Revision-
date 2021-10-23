@@ -242,6 +242,8 @@
     <plurals name="settings_auto_delete_summary">
         <item quantity="other">%d 天后</item>
     </plurals>
+    <string name="settings_sms_auto_copy_title">自动复制短信验证码</string>
+    <string name="settings_sms_auto_copy_summary">收到短信验证码时,自动复制验证码.</string>
     <string name="settings_long_as_mms_title">将长信息作为彩信发送</string>
     <string name="settings_long_as_mms_summary">如果您无法发送较长的信息，或者是以错误的顺序发送，您可以将其作为彩信发送。可能会收取额外的费用</string>
     <string name="settings_mms_size_title">自动压缩彩信附件</string>
